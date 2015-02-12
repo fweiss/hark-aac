@@ -96,7 +96,7 @@
         'first': { categories: [ 'number' ] },
         'five': { categories: [ 'number' ] },
         'fixed': { categories: [ 'action' ] },
-        'fly': { categories: [ 'animal' ] },
+        'fly': { categories: [ 'animal', 'travel', 'action' ] },
         'foot': { categories: [ 'body' ] },
         'for': { categories: [ 'preposition' ] },
         'from': { categories: [ 'temporal' ] },
@@ -131,7 +131,7 @@
         'here': { categories: [ 'location', 'travel' ] },
         'here\'s': { categories: [ 'location', 'travel' ] },
         'hi': { categories: [ 'greeting' ] },
-        'high': { categories: [ 'quantifier', 'location' ] },
+        'high': { categories: [ 'direction', 'location' ] },
         'hill': { categories: [ 'travel' ] },  //
         'him': { categories: [ 'person' ] },
         'his': { categories: [ 'person' ] },
@@ -160,7 +160,7 @@
         'kind': { categories: [ 'feeling' ] },
         'know': { categories: [ 'action' ] },
         'last': { categories: [ 'number', 'temporal' ] },
-        'leaves': { categories: [ 'action', 'location', 'direction', 'dwelling' ] },
+        'leaves': { categories: [ 'action', 'location', 'dwelling' ] },
         'let': { categories: [ 'action' ] },
         'let\'s': { categories: [ 'action' ] },
         'lift': { categories: [ 'action', 'direction' ] },
@@ -200,17 +200,70 @@
         'nice': { categories: [ 'feeling' ] },
         'no': { categories: [ 'exclamation' ] },
         'not': { categories: [ 'preposition' ] },
-        'of': { categories: [ 'preposition' ] }
+        'of': { categories: [ 'preposition' ] },
+        'off': { categories: [ 'action' ] },
+        'oh': { categories: [ 'exclamation' ] },
+        'other': { categories: [ 'preposition' ] },
+        'ok': { categories: [ 'exclamation', 'action', 'feeling' ] },
+        'old': { categories: [ 'temporal', 'person' ] },
+        'on': { categories: [ 'preposition', 'location', 'temporal' ] },
+        'one': { categories: [ 'number' ] },
+        'only': { categories: [ 'preposition' ] },
+        'open': { categories: [ 'action' ] },
+        'or': { categories: [ 'preposition' ] },
+        'our': { categories: [ 'person' ] },
+        'ours': { categories: [ 'person' ] },
+        'out': { categories: [ 'location', 'food' ] },
+        'over': { categories: [ 'location', 'action' ] },
+        'paint': { categories: [ 'action', 'object' ] },
+        'people': { categories: [ 'person' ] },
+        'pet': { categories: [ 'animal' ] },
+        'pick': { categories: [ 'action' ] },
+        'piece': { categories: [ 'food', 'object' ] },
+        'play': { categories: [ 'action' ] },
+        'please': { categories: [ 'action', 'feeling' ] },
+        'push': { categories: [ 'action' ] },
+        'put': { categories: [ 'action' ] },
+        'ready': { categories: [ 'action', 'exclamation' ] },
+        'really': { categories: [ 'preposition' ] },
+        'red': { categories: [ 'color' ] },
+        'remember': { categories: [ 'action' ] },
+        'ride': { categories: [ 'action', 'travel' ] },
+        'right': { categories: [ 'preposition', 'direction' ] },
+        'room': { categories: [ 'dwelling' ] },
+        'run': { categories: [ 'action' ] },
+        'said': { categories: [ 'action' ] },
+        'same': { categories: [ 'quantifier' ] },
+        'saw': { categories: [ 'action' ] },
+        'say': { categories: [ 'action' ] },
+        'see': { categories: [ 'action', 'exclamation' ] },
+        'she': { categories: [ 'person' ] },
+        'she\'s': { categories: [ 'person' ] },
+        'show': { categories: [ 'action' ] },
+        'shut': { categories: [ 'action' ] },
+        'side': { categories: [ 'direction' ] },
+        'sit': { categories: [ 'action', 'dwelling' ] },
+        'so': { categories: [ 'preposition' ] },
+        'still': { categories: [ 'action' ] },
+        'some': { categories: [ 'quantifier' ] },
+        'somebody': { categories: [ 'person' ] },
+        'someone': { categories: [ 'person' ] },
+        'something': { categories: [ 'object' ] },
+        'sometimes': { categories: [ 'temporal' ] },
+        'somewhere': { categories: [ 'location', 'travel' ] },
+        'stop': { categories: [ 'action', 'exclamation' ] },
+        'stuff': { categories: [ 'object' ] },
+        'swing': { categories: [ 'action' ] }  // play
    };
     var categories = {
+        'action': {},
         'animal': {},
+        'body': {},
+        'food': {},
         'number': {},
         'person': {},
         'quantifier': {},
-        'food': {},
-        'action': {},
         'preposition': {},
-        'body': {},
         'temporal': {},
         'direction': {},
         'color': {},
@@ -243,6 +296,10 @@
         button.addEventListener('click', utter2);
         container.appendChild(button);
     }
+    /**
+     * Decorate each word in the vocabulary with the TTS object and the word label for the button.
+     * @param vocabulary
+     */
     function createUtterances(vocabulary) {
         _.each(vocabulary, function(properties, word) {
             var utterance = new SpeechSynthesisUtterance(word);
@@ -269,9 +326,9 @@
              var label = document.createTextNode(category);
              button.appendChild(label);
              button.addEventListener('click', function(event) {
-                showCategory(category);
-            });
-            container.appendChild(button);
+             showCategory(category);
+             });
+             container.appendChild(button);
         });
     }
     function showCategory(category) {
