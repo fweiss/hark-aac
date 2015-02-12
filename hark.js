@@ -1,4 +1,11 @@
 (function() {
+    document.addEventListener("DOMContentLoaded", function(event) {
+        createUtterances(vocabulary);
+        createCategoryButtons(categories);
+        _.each(categories, function(properties, category) {
+            createCategoryPanel(vocabulary, category, properties);
+        });
+    });
     var vocabulary = {
         'about': { categories: [ 'quantifier' ] },
         'after': { categories: [ 'temporal' ] },
@@ -243,7 +250,7 @@
             properties.word = word;
         });
     }
-    function filterByCategory(vocabulary, category, properties) {
+    function createCategoryPanel(vocabulary, category, properties) {
         var subVocabulary = _.filter(_.toArray(vocabulary), function(word) {
             return _.contains(word.categories, category);
         });
@@ -255,13 +262,6 @@
             render(panel, word.word);
         })
     }
-    document.addEventListener("DOMContentLoaded", function(event) {
-        createUtterances(vocabulary);
-        createCategoryButtons(categories);
-        _.each(categories, function(properties, category) {
-            filterByCategory(vocabulary, category, properties);
-        });
-    });
     function createCategoryButtons(categories) {
         var container = document.getElementById('categories');
         _.each(categories, function(properties, category) {
