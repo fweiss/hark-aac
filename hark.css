@@ -1,0 +1,15 @@
+button {
+    margin: 3px;
+    padding: 8px 20px;
+    font-size: 34px;
+    background-color: #333333;
+    color: #ffffff;
+    border: none;
+    border-radius: 17px;
+}
+#categories button {
+    background-color: #333377;
+}
+#words {
+    width: 500px;
+}
