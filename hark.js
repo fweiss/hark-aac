@@ -221,7 +221,7 @@
         'feeling': {},
         'exclamation': {},
         'comfort': {}
-    }
+    };
     // on the fly
     function utter(target) {
         var utterance = target.toElement.getAttribute('utter');
