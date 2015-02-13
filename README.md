@@ -14,6 +14,7 @@ the TTS should work on chrome browser
 
 vocabulary based on
 
+"Vocabulary-Use Patterns in Preschool Children: Effects of Context and Time Sampling"
 Cristine A Marvin, David R Beukelmann, Denise Bilyeu
 Augmentative and Alternative Communication, Volume 10, December 1994
 
