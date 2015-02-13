@@ -408,15 +408,26 @@
         var word = target.toElement.getAttribute('utter');
         var props = vocabulary[word];
         window.speechSynthesis.speak(props.utterance);
-        counters[word] = counters[word] === undefined ? 1 : counters[word] + 1;
     }
-    function render(container, word) {
+    function countSpeechButton(button) {
+        var word = button.getAttribute('utter');
+        var key = 'word.' + word;
+        if (counters[key] === undefined) {
+            counters[key] = 1;
+        } else {
+            counters[key]++;
+        }
+    }
+    function createSpeechButton(word) {
         var button = document.createElement('button');
         button.setAttribute('utter', word);
         var text = document.createTextNode(word);
         button.appendChild(text);
         button.addEventListener('click', utter2);
-        container.appendChild(button);
+        button.addEventListener('click', function(event) {
+            countSpeechButton(event.toElement);
+        });
+        return button;
     }
     /**
      * Decorate each word in the vocabulary with the TTS object and the word label for the button.
@@ -439,7 +450,7 @@
         container.appendChild(panel);
         properties.panel = panel;
         _.each(subVocabulary, function(word) {
-            render(panel, word.word);
+            panel.appendChild(createSpeechButton(word.word));
         })
     }
     function createCategoryButtons(categories) {
