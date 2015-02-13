@@ -1,5 +1,6 @@
 body {
     background: url(bg1.png);
+    font-family: sans-serif;
 }
 button {
     margin: 6px;
@@ -12,9 +13,18 @@ button {
     border-radius: 17px;
     text-shadow: 0 -1px 1px #3275bc;
 }
+.panel {
+    display: none;
+}
+.number {
+    text-align: right;
+}
 #categories button {
     background-color: #333377;
 }
 #words {
     width: 500px;
+}
+#settings {
+    color: white;
 }

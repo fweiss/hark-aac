@@ -1,11 +1,55 @@
 (function() {
+    var settingsPanel;
+    var counters = {};
     document.addEventListener("DOMContentLoaded", function(event) {
         createUtterances(vocabulary);
+        createControlPanel();
+        settingsPanel = document.getElementById('settings');
         createCategoryButtons(categories);
         _.each(categories, function(properties, category) {
             createCategoryPanel(vocabulary, category, properties);
         });
     });
+    function createButton() {
+        var button = document.createElement('button');
+        var label = document.createTextNode('counters');
+        button.appendChild(label);
+        button.addEventListener('click', function() {
+            createSettingsPanel();
+            settingsPanel.style.display = 'block';
+        });
+        return button;
+    }
+    function createControlPanel() {
+        var panel = document.getElementById('control');
+        panel.appendChild(createButton());
+    }
+    function createSettingsPanel() {
+        var st = {
+            foo: 2,
+            bar: 45,
+            baz: 12
+        };
+        function createRow(label, value) {
+            var tr = document.createElement('tr');
+            var td1 = document.createElement('td');
+            var cell1 = document.createTextNode(label);
+            var td2 = document.createElement('td');
+            var cell2 = document.createTextNode(value);
+            td1.appendChild(cell1);
+            tr.appendChild(td1);
+            td2.appendChild(cell2);
+            td2.setAttribute('class', 'number');
+            tr.appendChild(td2)
+            return tr;
+        }
+        var settingsPanel = document.getElementById('settings');
+        var tbody = settingsPanel.getElementsByTagName('tbody')[0];
+        _.each(counters, function(value, key) {
+            tbody.appendChild(createRow(key, value));
+        });
+        return settingsPanel;
+    }
     var vocabulary = {
         'about': { categories: [ 'quantifier' ] },
         'after': { categories: [ 'temporal' ] },
@@ -253,25 +297,102 @@
         'somewhere': { categories: [ 'location', 'travel' ] },
         'stop': { categories: [ 'action', 'exclamation' ] },
         'stuff': { categories: [ 'object' ] },
-        'swing': { categories: [ 'action' ] }  // play
+        'swing': { categories: [ 'action' ] },  // play
+
+        'tape': { categories: [ 'object' ] },
+        'tell': { categories: [ 'action' ] },
+        'than': { categories: [ 'preposition' ] },
+        'that': { categories: [ 'preposition', 'object' ] },
+        'that\'s': { categories: [ 'object' ] },
+        'the': { categories: [ 'preposition' ] }, // article
+        'their': { categories: [ 'person' ] },
+        'them': { categories: [ 'person' ] },
+        'then': { categories: [ 'temporal', 'preposition' ] },
+        'there': { categories: [ 'location' ] },
+        'there\'s': { categories: [ 'location' ] },
+        // there's
+        'these': { categories: [ 'object' ] },
+        'they': { categories: [ 'person' ] },
+        'they\'ll': { categories: [ 'person' ] },
+        'they\'re': { categories: [ 'person' ] },
+        'thing': { categories: [ 'object' ] },
+        'things': { categories: [ 'object' ] },
+        'this': { categories: [ 'object' ] },
+        'those': { categories: [ 'object' ] },
+        'three': { categories: [ 'number' ] },
+        'threw': { categories: [ 'action' ] },
+        'through': { categories: [ 'location', 'temporal' ] },
+        'time': { categories: [ 'temporal' ] },
+        'to': { categories: [ 'preposition' ] },
+        'today': { categories: [ 'temporal' ] },
+        'together': { categories: [ 'person' ] },
+        'too': { categories: [ 'preposition' ] },
+        'top': { categories: [ 'direction' ] },
+        'toys': { categories: [ 'object' ] },
+        'trees': { categories: [ 'object' ] },
+        'try': { categories: [ 'action' ] },
+        'trying': { categories: [ 'action', 'feeling' ] },
+        'turn': { categories: [ 'action', 'travel' ] },
+        'turtles': { categories: [ 'animal' ] },
+        'two': { categories: [ 'number' ] },
+        'um': { categories: [ 'exclamation' ] },
+        'up': { categories: [ 'direction', 'feeling' ] },
+        'us': { categories: [ 'person' ] },
+        'use': { categories: [ 'action' ] },
+        'used': { categories: [ 'action' ] },
+        'very': { categories: [ 'quantifier' ] },
+        'wait': { categories: [ 'action' ] },
+        'want': { categories: [ 'action' ] },
+        'wanted': { categories: [ 'action' ] },
+        'was': { categories: [ 'action' ] },
+        'wasn\'t': { categories: [ 'action' ] },
+        'watch': { categories: [ 'action', 'object' ] },
+        'water': { categories: [ 'object', 'food', 'comfort' ] },
+        'way': { categories: [ 'location', 'direction', 'travel' ] },
+        'we': { categories: [ 'person' ] },
+        'we\'ll': { categories: [ 'person' ] },
+        'we\'re': { categories: [ 'person' ] },
+        'well': { categories: [ 'preposition', 'feeling' ] },
+
+        'went': { categories: [ 'action', 'travel' ] },
+        'were': { categories: [ 'action' ] },
+        'what': { categories: [ 'question' ] },
+        'what\'s': { categories: [ 'question' ] },
+        'when': { categories: [ 'question', 'temporal' ] },
+        'where': { categories: [ 'question', 'location', 'travel', 'direction' ] },
+        'where\'s': { categories: [ 'question', 'location', 'travel', 'direction' ] },
+        'which': { categories: [ 'question' ] },
+        'why': { categories: [ 'question' ] },
+        'with': { categories: [ 'preposition', 'food' ] },
+        'won\'t': { categories: [ 'action' ] },
+        'would': { categories: [ 'action', 'question' ] },
+        'ya': { categories: [ 'exclamation' ] },
+        'yes': { categories: [ 'exclamation' ] },
+        'yet': { categories: [ 'temporal' ] },
+        'you': { categories: [ 'person' ] },
+        'you\'ll': { categories: [ 'person' ] },
+        'you\'re': { categories: [ 'person' ] },
+        'your': { categories: [ 'person' ] },
+        'yours': { categories: [ 'person' ] }
    };
     var categories = {
         'action': {},
         'animal': {},
         'body': {},
+        'color': {},
+        'direction': {},
+        'dwelling': {},
+        'feeling': {},
         'food': {},
         'number': {},
         'person': {},
-        'quantifier': {},
         'preposition': {},
+        'quantifier': {},
+        'question': {},
         'temporal': {},
-        'direction': {},
-        'color': {},
         'greeting': {},
         'location': {},
         'travel': {},
-        'dwelling': {},
-        'feeling': {},
         'exclamation': {},
         'comfort': {}
     };
@@ -287,6 +408,7 @@
         var word = target.toElement.getAttribute('utter');
         var props = vocabulary[word];
         window.speechSynthesis.speak(props.utterance);
+        counters[word] = counters[word] === undefined ? 1 : counters[word] + 1;
     }
     function render(container, word) {
         var button = document.createElement('button');
@@ -313,6 +435,7 @@
         });
         var container = document.getElementById('panels');
         var panel = document.createElement('div');
+        panel.setAttribute('class', 'panel');
         container.appendChild(panel);
         properties.panel = panel;
         _.each(subVocabulary, function(word) {
