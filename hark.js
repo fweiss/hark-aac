@@ -1,7 +1,7 @@
 (function() {
     var settingsPanel;
     var counters = {};
-    document.addEventListener("DOMContentLoaded", function(event) {
+    document.addEventListener("DOMContentLoaded", function() {
         createUtterances(vocabulary);
         createControlPanel();
         settingsPanel = document.getElementById('settings');
@@ -10,10 +10,14 @@
             createCategoryPanel(vocabulary, category, properties);
         });
     });
-    function createButton() {
+    function createButton(label) {
         var button = document.createElement('button');
-        var label = document.createTextNode('counters');
+        var label = document.createTextNode(label);
         button.appendChild(label);
+        return button;
+    }
+    function createCountersButton() {
+        var button = createButton('counters');
         button.addEventListener('click', function() {
             createSettingsPanel();
             settingsPanel.style.display = 'block';
@@ -22,14 +26,9 @@
     }
     function createControlPanel() {
         var panel = document.getElementById('control');
-        panel.appendChild(createButton());
+        panel.appendChild(createCountersButton());
     }
     function createSettingsPanel() {
-        var st = {
-            foo: 2,
-            bar: 45,
-            baz: 12
-        };
         function createRow(label, value) {
             var tr = document.createElement('tr');
             var td1 = document.createElement('td');
@@ -94,10 +93,8 @@
         }
     }
     function createSpeechButton(word) {
-        var button = document.createElement('button');
+        var button = createButton(word);
         button.setAttribute('utter', word);
-        var text = document.createTextNode(word);
-        button.appendChild(text);
         button.addEventListener('click', utter2);
         button.addEventListener('click', function(event) {
             countSpeechButton(event.toElement);
@@ -131,21 +128,18 @@
     function createCategoryButtons(categories) {
         var container = document.getElementById('categories');
         _.each(categories, function(properties, category) {
-             var button = document.createElement('button');
-             var label = document.createTextNode(category);
-             button.appendChild(label);
-             button.addEventListener('click', function(event) {
-             showCategory(category);
-             });
-             container.appendChild(button);
+            var button = createButton(category);
+            button.addEventListener('click', function(event) {
+                showCategory(category);
+            });
+            container.appendChild(button);
         });
     }
     function showCategory(category) {
         var selected = categories[category];
         if (selected && selected.panel) {
             _.each(categories, function (properties, category) {
-                 var panel = properties.panel;
-                 panel.style.display = 'none';
+                 properties.panel.style.display = 'none';
             });
             selected.panel.style.display = 'block';
         }
