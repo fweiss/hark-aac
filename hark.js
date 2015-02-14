@@ -10,11 +10,16 @@
             createCategoryPanel(vocabulary, category, properties);
         });
     });
-    function createButton(label) {
+    function createButton(labelText) {
         var button = document.createElement('button');
-        var label = document.createTextNode(label);
+        var label = document.createTextNode(labelText);
         button.appendChild(label);
         return button;
+    }
+    function emptyElement(element) {
+        while (element.hasChildNodes()) {
+            element.removeChild(element.firstChild);
+        }
     }
     function createCountersButton() {
         var button = createButton('counters');
@@ -39,11 +44,12 @@
             tr.appendChild(td1);
             td2.appendChild(cell2);
             td2.setAttribute('class', 'number');
-            tr.appendChild(td2)
+            tr.appendChild(td2);
             return tr;
         }
         var settingsPanel = document.getElementById('settings');
         var tbody = settingsPanel.getElementsByTagName('tbody')[0];
+        emptyElement(tbody);
         _.each(counters, function(value, key) {
             tbody.appendChild(createRow(key, value));
         });
@@ -107,8 +113,7 @@
      */
     function createUtterances(vocabulary) {
         _.each(vocabulary, function(properties, word) {
-            var utterance = new SpeechSynthesisUtterance(word);
-            properties.utterance = utterance;
+            properties.utterance = new SpeechSynthesisUtterance(word);
             properties.word = word;
         });
     }
@@ -129,7 +134,7 @@
         var container = document.getElementById('categories');
         _.each(categories, function(properties, category) {
             var button = createButton(category);
-            button.addEventListener('click', function(event) {
+            button.addEventListener('click', function() {
                 showCategory(category);
             });
             container.appendChild(button);
@@ -138,7 +143,7 @@
     function showCategory(category) {
         var selected = categories[category];
         if (selected && selected.panel) {
-            _.each(categories, function (properties, category) {
+            _.each(categories, function (properties) {
                  properties.panel.style.display = 'none';
             });
             selected.panel.style.display = 'block';
