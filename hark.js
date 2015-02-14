@@ -10,10 +10,9 @@
             createCategoryPanel(vocabulary, category, properties);
         });
     });
-    function createButton(labelText) {
+    function createButton(label) {
         var button = document.createElement('button');
-        var label = document.createTextNode(labelText);
-        button.appendChild(label);
+        button.appendChild(document.createTextNode(label));
         return button;
     }
     function emptyElement(element) {
@@ -37,13 +36,11 @@
         function createRow(label, value) {
             var tr = document.createElement('tr');
             var td1 = document.createElement('td');
-            var cell1 = document.createTextNode(label);
+            td1.appendChild(document.createTextNode(label));
             var td2 = document.createElement('td');
-            var cell2 = document.createTextNode(value);
-            td1.appendChild(cell1);
-            tr.appendChild(td1);
-            td2.appendChild(cell2);
+            td2.appendChild(document.createTextNode(value));
             td2.setAttribute('class', 'number');
+            tr.appendChild(td1);
             tr.appendChild(td2);
             return tr;
         }
