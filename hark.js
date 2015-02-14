@@ -54,21 +54,21 @@
         'animal': {},
         'body': {},
         'color': {},
+        'comfort': {},
         'direction': {},
         'dwelling': {},
+        'exclamation': {},
         'feeling': {},
         'food': {},
+        'greeting': {},
+        'location': {},
         'number': {},
         'person': {},
         'preposition': {},
         'quantifier': {},
         'question': {},
         'temporal': {},
-        'greeting': {},
-        'location': {},
-        'travel': {},
-        'exclamation': {},
-        'comfort': {}
+        'travel': {}
     };
     // on the fly
     function utter(target) {
