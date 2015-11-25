@@ -1,0 +1,23 @@
+{
+  "name": "hark-aac",
+  "main": "hark.js",
+  "version": "0.0.0",
+  "homepage": "https://github.com/fweiss/hark-aac",
+  "description": "Library for creating AAC web apps.",
+  "keywords": [
+    "aac",
+    "javascript",
+    "html"
+  ],
+  "authors": [
+    "Frank E. Weiss"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
