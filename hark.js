@@ -23,8 +23,13 @@
     function createCountersButton() {
         var button = createButton('counters');
         button.addEventListener('click', function() {
-            createSettingsPanel();
-            settingsPanel.style.display = 'block';
+            var shown = settingsPanel.style.display == 'block';
+            if (shown) {
+                settingsPanel.style.display = 'none';
+            } else {
+                createSettingsPanel();
+                settingsPanel.style.display = 'block';
+            }
         });
         return button;
     }
