@@ -78,6 +78,15 @@
         'temporal': {},
         'travel': {}
     };
+    function utteranceFactory(message) {
+        var utterance = new SpeechSynthesisUtterance();
+        utterance.text = message;
+        utterance.lang = 'en-US';
+        utterance.volume = 1;
+        utterance.rate = 0.7;
+        //utterance.voice = "";
+        return utterance;
+    }
     // on the fly
     function utter(target) {
         var utterance = target.toElement.getAttribute('utter');
@@ -115,7 +124,7 @@
      */
     function createUtterances(vocabulary) {
         _.each(vocabulary, function(properties, word) {
-            properties.utterance = new SpeechSynthesisUtterance(word);
+            properties.utterance = utteranceFactory(word);
             properties.word = word;
         });
     }
