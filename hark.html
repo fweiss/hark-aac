@@ -15,6 +15,27 @@
                 <tbody></tbody>
             </table>
         </div>
+        <div id="utterance-settings" class="panel">
+            <div class="input"></div>
+                <button id="testUtteranceButton">Test</button>
+                <input id="testUtteranceText" type="text" style="width: 25em" value="This is how the settings sound"></input>
+            <div class="input">
+                <label for="voice">Voice</label>
+                <select id="voice"></select>
+            </div>
+            <div class="input">
+                <label for="volume">Volume</label>
+                <input id="volume" type="range" min="0" max="1" step="0.1"></input>
+            </div>
+            <div class="input">
+                <label for="rate">Rate</label>
+                <input id="rate" type="range" min="0" max="1" step="0.1"></input>
+            </div>
+            <div class="input">
+                <label for="pitch">Pitch</label>
+                <input id="pitch" type="range" min="0" max="2" step="0.1"></input>
+            </div>
+        </div>
         <div id="categories"></div>
         <div id="panels"></div>
     </body>

@@ -1,15 +1,66 @@
 (function() {
     var settingsPanel;
     var counters = {};
-    document.addEventListener("DOMContentLoaded", function() {
+    var utteranceSettings = {
+        voicesModel: [],
+        volume: 1,
+        rate: 0.7
+    };
+    document.addEventListener('DOMContentLoaded', function() {
         createUtterances(vocabulary);
         createControlPanel();
+        createUtteranceSettings();
         settingsPanel = document.getElementById('settings');
         createCategoryButtons(categories);
         _.each(categories, function(properties, category) {
             createCategoryPanel(vocabulary, category, properties);
         });
     });
+    function createUtteranceSettings() {
+        var voicesSelect = document.getElementById('voice');
+        function updateVoiceSelect() {
+            utteranceSettings.voicesModel = _.filter(window.speechSynthesis.getVoices(), function(voiceModel) {
+                return voiceModel.lang == 'en-US';
+            });
+            emptyElement(voicesSelect);
+            _.each(utteranceSettings.voicesModel, function(voiceModel) {
+                var option = document.createElement('option');
+                var optionText = document.createTextNode(voiceModel.name);
+                option.appendChild(optionText);
+                voicesSelect.appendChild(option);
+            });
+        }
+        // no event listener in safari
+        if (window.speechSynthesis.addEventListener) {
+            window.speechSynthesis.addEventListener('voiceschanged', updateVoiceSelect);
+        } else {
+            updateVoiceSelect();
+        }
+        voicesSelect.addEventListener('change', function(event) {
+            var selectedVoiceName = event.target.selectedOptions[0].text;
+            utteranceSettings.voice = _.find(utteranceSettings.voicesModel, function(voiceModel) {
+                return voiceModel.name == selectedVoiceName;
+            });
+            createUtterances(vocabulary);
+        });
+        document.getElementById('volume').addEventListener('change', function(event) {
+            utteranceSettings.volume = event.target.value;
+            createUtterances(vocabulary);
+        });
+        document.getElementById('rate').addEventListener('change', function(event) {
+            utteranceSettings.rate = event.target.value;
+            createUtterances(vocabulary);
+        });
+        document.getElementById('pitch').addEventListener('change', function(event) {
+            utteranceSettings.pitch = event.target.value;
+            createUtterances(vocabulary);
+        });
+        document.getElementById('testUtteranceButton').addEventListener('click', function(event) {
+            var testUtteranceText = document.getElementById('testUtteranceText');
+            var testUtterance = utteranceFactory(testUtteranceText.value);
+            window.speechSynthesis.speak(testUtterance);
+        });
+     }
     function createButton(label) {
         var button = document.createElement('button');
         button.appendChild(document.createTextNode(label));
@@ -20,22 +71,40 @@
             element.removeChild(element.firstChild);
         }
     }
+    function togglePanel(settingsPanel) {
+        var shown = settingsPanel.style.display == 'block';
+        if (shown) {
+            settingsPanel.style.display = 'none';
+        } else {
+            createSettingsPanel();
+            settingsPanel.style.display = 'block';
+        }
+    }
     function createCountersButton() {
         var button = createButton('counters');
+        var settingsPanel = document.getElementById('settings');
         button.addEventListener('click', function() {
-            var shown = settingsPanel.style.display == 'block';
-            if (shown) {
-                settingsPanel.style.display = 'none';
-            } else {
-                createSettingsPanel();
-                settingsPanel.style.display = 'block';
-            }
+            togglePanel(settingsPanel)
         });
         return button;
     }
     function createControlPanel() {
         var panel = document.getElementById('control');
         panel.appendChild(createCountersButton());
+        panel.appendChild(createSettingsButton());
+    }
+    function createSettingsButton() {
+        var button = createButton('Settings');
+        var settingsPanel = document.getElementById('utterance-settings');
+        button.addEventListener('click', function() {
+            var shown = settingsPanel.style.display == 'block';
+            if (shown) {
+                settingsPanel.style.display = 'none';
+            } else {
+                settingsPanel.style.display = 'block';
+            }
+        });
+        return button;
     }
     function createSettingsPanel() {
         function createRow(label, value) {
@@ -82,9 +151,14 @@
         var utterance = new SpeechSynthesisUtterance();
         utterance.text = message;
         utterance.lang = 'en-US';
-        utterance.volume = 1;
-        utterance.rate = 0.7;
-        //utterance.voice = "";
+        utterance.volume = utteranceSettings.volume;
+        utterance.rate = utteranceSettings.rate;
+        if (utteranceSettings.pitch) {
+            utterance.pitch = utteranceSettings.pitch;
+        }
+        if (utteranceSettings.voice) {
+            utterance.voice = utteranceSettings.voice;
+        }
         return utterance;
     }
     // on the fly
