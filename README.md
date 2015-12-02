@@ -25,3 +25,14 @@ Augmentative and Alternative Communication, Volume 10, December 1994
 Minspeak and Unity, John Halloran
 www.prentrom.com
 www.minspeak.com
+
+== developer notes
+The index.html file is both a local dev resource and example for cordova integration.
+
+The index.html file should be loaded via a web server or a browser that doesn't block
+file-based XHR requests.
+
+If you're using IntelliJ, right click index.html and choose open with browser.
+
+You can open index.html form the file system with Safari, which allows file-based XHR
+requests.

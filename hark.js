@@ -6,18 +6,24 @@
         volume: 1,
         rate: 0.7
     };
-    loadDom();
+    document.addEventListener("DOMContentLoaded", loadDom);
     function loadDom() {
+        var container = document.getElementById('container');
+        var templateUrl = container.getAttribute('template');
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function() {
+            console.log('template loaded: readystate: ' + xmlhttp.readyState + 'status:' + xmlhttp.status);
             if (xmlhttp.readyState == 4) {
-                if (xmlhttp.status == 200) {
+                // file system returns status 0
+                if (xmlhttp.status == 200 || xmlhttp.status == 0) {
                     document.getElementById('container').innerHTML = xmlhttp.responseText;
                     init();
                 }
             }
         };
-        xmlhttp.open('GET', 'hark.html', true);
+        console.log('loading template: ' + templateUrl);
+        // could use sync here
+        xmlhttp.open('GET', templateUrl, true);
         xmlhttp.send();
     }
     function init() {
