@@ -1,4 +1,4 @@
-hark
+= hark aac
 
 you can hear me now
 
@@ -12,7 +12,11 @@ currently written in simple html dom, using only the underscore library
 
 the TTS should work on chrome browser
 
-vocabulary based on
+== cordoba integration
+It is packaged with bower to be integrated with cordoba. Follow the example of the index.html which
+load the assets and then dynamically load the DOM via XHR.
+
+== vocabulary based on
 
 "Vocabulary-Use Patterns in Preschool Children: Effects of Context and Time Sampling"
 Cristine A Marvin, David R Beukelmann, Denise Bilyeu

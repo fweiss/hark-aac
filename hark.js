@@ -6,7 +6,21 @@
         volume: 1,
         rate: 0.7
     };
-    document.addEventListener('DOMContentLoaded', function() {
+    loadDom();
+    function loadDom() {
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+            if (xmlhttp.readyState == 4) {
+                if (xmlhttp.status == 200) {
+                    document.getElementById('container').innerHTML = xmlhttp.responseText;
+                    init();
+                }
+            }
+        };
+        xmlhttp.open('GET', 'hark.html', true);
+        xmlhttp.send();
+    }
+    function init() {
         createUtterances(vocabulary);
         createControlPanel();
         createUtteranceSettings();
@@ -15,7 +29,7 @@
         _.each(categories, function(properties, category) {
             createCategoryPanel(vocabulary, category, properties);
         });
-    });
+    }
     function createUtteranceSettings() {
         var voicesSelect = document.getElementById('voice');
         function updateVoiceSelect() {
