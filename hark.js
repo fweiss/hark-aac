@@ -7,6 +7,13 @@
         rate: 0.7
     };
     document.addEventListener("DOMContentLoaded", loadDom);
+    document.addEventListener('deviceready', getVoices);
+    // no event listener in safari
+    if (window.speechSynthesis.addEventListener) {
+        window.speechSynthesis.addEventListener('voiceschanged', getVoices);
+    } else {
+        getVoices();
+    }
     function loadDom() {
         var container = document.getElementById('container');
         var templateUrl = container.getAttribute('template');
@@ -27,8 +34,6 @@
         xmlhttp.send();
     }
     function init() {
-        // for cordova
-        document.addEventListener('deviceready', updateVoiceSelect);
         createUtterances(vocabulary);
         createControlPanel();
         createUtteranceSettingsPanel();
@@ -40,26 +45,25 @@
     }
     function updateVoiceSelect() {
         var voicesSelect = document.getElementById('voice');
+        if (voicesSelect) {
+            emptyElement(voicesSelect);
+            _.each(utteranceSettings.voicesModel, function(voiceModel) {
+                var option = document.createElement('option');
+                var optionText = document.createTextNode(voiceModel.name);
+                option.appendChild(optionText);
+                voicesSelect.appendChild(option);
+            });
+        }
+    }
+    function getVoices() {
         utteranceSettings.voicesModel = _.filter(window.speechSynthesis.getVoices(), function(voiceModel) {
             return voiceModel.lang == 'en-US';
         });
-        emptyElement(voicesSelect);
-        _.each(utteranceSettings.voicesModel, function(voiceModel) {
-            var option = document.createElement('option');
-            var optionText = document.createTextNode(voiceModel.name);
-            option.appendChild(optionText);
-            voicesSelect.appendChild(option);
-        });
+        updateVoiceSelect();
     }
     function createUtteranceSettingsPanel() {
+        updateVoiceSelect();
         var voicesSelect = document.getElementById('voice');
-        // no event listener in safari
-        if (window.speechSynthesis.addEventListener) {
-            window.speechSynthesis.addEventListener('voiceschanged', updateVoiceSelect);
-        } else {
-            updateVoiceSelect();
-        }
- 
         voicesSelect.addEventListener('change', function(event) {
             var selectedVoiceName = event.target.selectedOptions[0].text;
             utteranceSettings.voice = _.find(utteranceSettings.voicesModel, function(voiceModel) {
