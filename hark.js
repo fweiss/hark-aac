@@ -29,14 +29,14 @@
     function init() {
         createUtterances(vocabulary);
         createControlPanel();
-        createUtteranceSettings();
+        createUtteranceSettingsPanel();
         settingsPanel = document.getElementById('settings');
         createCategoryButtons(categories);
         _.each(categories, function(properties, category) {
             createCategoryPanel(vocabulary, category, properties);
         });
     }
-    function createUtteranceSettings() {
+    function createUtteranceSettingsPanel() {
         var voicesSelect = document.getElementById('voice');
         function updateVoiceSelect() {
             utteranceSettings.voicesModel = _.filter(window.speechSynthesis.getVoices(), function(voiceModel) {
@@ -56,6 +56,9 @@
         } else {
             updateVoiceSelect();
         }
+        // for cordova
+        document.addEventListener('deviceready', updateVoiceSelect);
+ 
         voicesSelect.addEventListener('change', function(event) {
             var selectedVoiceName = event.target.selectedOptions[0].text;
             utteranceSettings.voice = _.find(utteranceSettings.voicesModel, function(voiceModel) {
