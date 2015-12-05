@@ -27,6 +27,8 @@
         xmlhttp.send();
     }
     function init() {
+        // for cordova
+        document.addEventListener('deviceready', updateVoiceSelect);
         createUtterances(vocabulary);
         createControlPanel();
         createUtteranceSettingsPanel();
@@ -36,28 +38,27 @@
             createCategoryPanel(vocabulary, category, properties);
         });
     }
+    function updateVoiceSelect() {
+        var voicesSelect = document.getElementById('voice');
+        utteranceSettings.voicesModel = _.filter(window.speechSynthesis.getVoices(), function(voiceModel) {
+            return voiceModel.lang == 'en-US';
+        });
+        emptyElement(voicesSelect);
+        _.each(utteranceSettings.voicesModel, function(voiceModel) {
+            var option = document.createElement('option');
+            var optionText = document.createTextNode(voiceModel.name);
+            option.appendChild(optionText);
+            voicesSelect.appendChild(option);
+        });
+    }
     function createUtteranceSettingsPanel() {
         var voicesSelect = document.getElementById('voice');
-        function updateVoiceSelect() {
-            utteranceSettings.voicesModel = _.filter(window.speechSynthesis.getVoices(), function(voiceModel) {
-                return voiceModel.lang == 'en-US';
-            });
-            emptyElement(voicesSelect);
-            _.each(utteranceSettings.voicesModel, function(voiceModel) {
-                var option = document.createElement('option');
-                var optionText = document.createTextNode(voiceModel.name);
-                option.appendChild(optionText);
-                voicesSelect.appendChild(option);
-            });
-        }
         // no event listener in safari
         if (window.speechSynthesis.addEventListener) {
             window.speechSynthesis.addEventListener('voiceschanged', updateVoiceSelect);
         } else {
             updateVoiceSelect();
         }
-        // for cordova
-        document.addEventListener('deviceready', updateVoiceSelect);
  
         voicesSelect.addEventListener('change', function(event) {
             var selectedVoiceName = event.target.selectedOptions[0].text;
