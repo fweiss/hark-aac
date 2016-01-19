@@ -56,7 +56,8 @@
         }
     }
     function getVoices() {
-        utteranceSettings.voicesModel = _.filter(window.speechSynthesis.getVoices(), function(voiceModel) {
+        var voices = window.harkPlatform ? window.harkPlatform.getVoices() : window.speechSynthesis.getVoices();
+        utteranceSettings.voicesModel = _.filter(voices, function(voiceModel) {
             return voiceModel.lang == 'en-US';
         });
         updateVoiceSelect();
@@ -262,4 +263,5 @@
             selected.panel.style.display = 'block';
         }
     }
+ 
 })();
